@@ -98,7 +98,7 @@ class LoginView(generics.CreateAPIView):
         )
 
 
-class ProfileView(generics.CreateAPIView):
+class ProfileView(generics.RetrieveUpdateAPIView):
     """
     View for user profile management.
 

@@ -76,7 +76,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return user
 
 
-class UserLoginSerializer(serializers.ModelSerializer):
+class UserLoginSerializer(serializers.Serializer):
     """
     Serializer for user authentication (login).
 
@@ -180,7 +180,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
         Returns:
             int: The count of posts.
         """
-        return obj.posts.count()
+        try:
+            return obj.posts.count()
+        except AttributeError:
+            return 0
 
     @staticmethod
     def get_comments_count(obj: User) -> int:
@@ -193,7 +196,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
         Returns:
             int: The count of comments.
         """
-        return obj.comments.count()
+        try:
+            return obj.comments.count()
+        except AttributeError:
+            return 0
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
@@ -288,7 +294,7 @@ class ChangePasswordSerializer(serializers.Serializer):
             )
         return attrs
 
-    def save(self, **kwargs: Any) -> User:
+    def save(self) -> User:
         """
         Sets the new password for the user and saves the changes.
 
